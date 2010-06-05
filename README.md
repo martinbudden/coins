@@ -53,3 +53,9 @@ Useful links
 * What Do They Know [COINS database schema](http://www.whatdotheyknow.com/request/25039/response/67260/attach/3/100111%20COINS%20Schema%20for%20FOI%209%201049.xls)
 * EtherPad - [Coins open notepad](http://pad.okfn.org/coins)
 * Google spreadshee of [COINS Schema overview:](http://spreadsheets.google.com/ccc?key=0Ah8UkI7xG7eWdHpYMnhaWmR5NVdNUG9yTkNfQVlUTWc&hl=en_GB)
+
+
+Coding resources
+----------------
+
+* [okfn coins python scripts[(http://bitbucket.org/okfn/coins)

@@ -26,22 +26,22 @@ def read_coins_csv(filename):
         Snapshot30@ PLANS FEB08@SCT075@Scottish Government@41321100@Interest receivable - Student Loans@Plans New Budget Regime Draft Adjustments@@2009-10@CPID.NA@@Segment.NA@@Segment Root Member@@@A-DUM@@@B-CON@Resource@@Dept@@Dept075@@@@ESA-D41A@E-OAA@@@Interest/dividends@@@@@@S1001@@@@@@@@@@@@@@@@@@@Negative@@@@@@@@@@@@@@@@@@@@@@@0
 
     Interesting COINS fields:
-        Data_type
-        Data_type_description
-        Department_code
-        Department_description
-        Account_code
-        Account_description
-        data_subtype
-        data_subtype_description
-        Time
-        Programme_object_code
-        Programme_object_description
-        Programme_object_group_code
-        Programme_object_group_description
-        Resource_Capital
-        Sector
-        Value
+        0  - Data_type
+        1  - Data_type_description
+        2  - Department_code
+        3  - Department_description
+        4  - Account_code
+        5  - Account_description
+        6  - data_subtype
+        7  - data_subtype_description
+        8  - Time
+        12 - Programme_object_code
+        13 - Programme_object_description
+        14 - Programme_object_group_code
+        15 - Programme_object_group_description
+        21 - Resource_Capital
+        57 - Sector
+        80 - Value
 
     """
     data_type = {}
