@@ -35,13 +35,18 @@ def read_coins_csv(filename):
         6  - data_subtype
         7  - data_subtype_description
         8  - Time
-        12 - Programme_object_code
-        13 - Programme_object_description
-        14 - Programme_object_group_code
-        15 - Programme_object_group_description
-        21 - Resource_Capital
-        57 - Sector
+        9  - Counterparty_code
+        10 - Couterparty_description
+        11 - Programme_object_code
+        12 - Programme_object_description
+        13 - Programme_object_group_code
+        14 - Programme_object_group_description
+        20 - Resource_Capital
+        22 - CGA_Body_Type
+        24  -Dept_Group
+        56 - Sector
         80 - Value
+    interesting_fields = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,20,22,24,56,80]
 
     """
     data_type = {}
