@@ -33,23 +33,23 @@ Treasury Information
 
 HM Treasury publish documents that may help to understand COINS and, and how that data may be used and aggregated. These include:
 
-* [Public spending planning and control Ð a brief introduction](http://www.hm-treasury.gov.uk/psr_spend_plancontrol.htm)
+* [Public spending planning and control - a brief introduction](http://www.hm-treasury.gov.uk/psr_spend_plancontrol.htm)
 * [Consolidated Budgeting Guidance](http://www.hm- treasury.gov.uk/psr_bc_consolidated_budgeting.htm)
 * [Classification papers](http://www.hm- treasury.gov.uk/psr_bac_classification_papers.htm)
-* Information on the Supply Estimates process at: http://www.hm- treasury.gov.uk/psr_estimates_index.htm
+* Information on the Supply Estimates process at: [Financial reporting - Parliamentary Supply Estimates](http://www.hm-treasury.gov.uk/psr_estimates_index.htm)
 
 Slightly differing approaches are taken to some data recording and outputs for the Devolved Administrations. Some information on that, by means of concordats, is available here: http://www.hm-treasury.gov.uk/psr_devolved_assemblies.htm
 
-HM Treasury publishes a number of documents based COINS data. Public Spending Statistics are available here: http://www.hm-treasury.gov.uk/finexp_index.htm
+HM Treasury publishes a number of documents based COINS data. Public Spending Statistics are available here: [Statistics on Public Finance and Spending](http://www.hm-treasury.gov.uk/finexp_index.htm)
 
 
 Useful links
 ------------
 
 * [Where Does My Money Go?](http://www.wheredoesmymoneygo.org/)
-* [Where Does My Money Go? - A User Guide to COINS](http://www.wheredoesmymoneygo.org/data/coins/)
-* [Open Knowledge Foundation Blog - The Hunt For COINS](http://blog.okfn.org/2010/02/22/the-hunt-for-coins/)
-* [Open Knowledge Foundation Blog - COINS: A Users Guide](http://blog.okfn.org/2010/06/04/coins-a-users-guide/)
-* [COINS database schema](http://www.whatdotheyknow.com/request/25039/response/67260/attach/3/100111%20COINS%20Schema%20for%20FOI%209%201049.xls)
-* [EtherPad - Coins open notepad](http://pad.okfn.org/coins)
-* [Schema overview:](http://spreadsheets.google.com/ccc?key=0Ah8UkI7xG7eWdHpYMnhaWmR5NVdNUG9yTkNfQVlUTWc&hl=en_GB)
+* Where Does My Money Go? - [A User Guide to COINS](http://www.wheredoesmymoneygo.org/data/coins/)
+* Open Knowledge Foundation Blog - [The Hunt For COINS](http://blog.okfn.org/2010/02/22/the-hunt-for-coins/)
+* Open Knowledge Foundation Blog - [COINS: A Users Guide](http://blog.okfn.org/2010/06/04/coins-a-users-guide/)
+* What Do They Know [COINS database schema](http://www.whatdotheyknow.com/request/25039/response/67260/attach/3/100111%20COINS%20Schema%20for%20FOI%209%201049.xls)
+* EtherPad - [Coins open notepad](http://pad.okfn.org/coins)
+* Google spreadshee of [COINS Schema overview:](http://spreadsheets.google.com/ccc?key=0Ah8UkI7xG7eWdHpYMnhaWmR5NVdNUG9yTkNfQVlUTWc&hl=en_GB)
