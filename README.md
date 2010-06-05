@@ -58,4 +58,4 @@ Useful links
 Coding resources
 ----------------
 
-* [okfn coins python scripts[(http://bitbucket.org/okfn/coins)
+* [okfn coins python scripts](http://bitbucket.org/okfn/coins)
