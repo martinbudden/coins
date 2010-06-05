@@ -1,0 +1,3 @@
+include Makefile README.md CHANGELOG
+recursive-include coins *
+recursive-include test *
