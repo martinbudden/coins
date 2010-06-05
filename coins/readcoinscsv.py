@@ -1,25 +1,23 @@
 #!/usr/bin/env python
 #coding=utf-8
-#file: readcsv.py
+#file: readcoinscsv.py
 
 """
-readcsv
+Read a COINS .csv file
 """
 
 import csv
-#from jinja2 import Template
-from collections import defaultdict
+from jinja2 import Template
+#from collections import defaultdict
 from optparse import OptionParser
 
 
-def read_csv(filename):
+def read_coins_csv(filename):
     """
-    Read genetic marker allele frequency data from a .csv file
+    Read COINS .csv file
 
     Keyword arguments:
     filename -- the file to be read
-    normalizer -- used to normalize the data, use 100 if the data are percentages, 1 if they are
-    fractions in the range [0.0, 1.0]
 
     Format of file is:
     First row - each cell is a column heading
@@ -55,7 +53,8 @@ def read_csv(filename):
 
 
     # read in the first row, which contains the column headings
-    # eg Data_type, Data_type_description, Department_code, Department_description,
+    # eg Data_type, Data_type_description,
+    # Department_code, Department_description,
     # Account_code, Account_description...
     row = reader.next()
     #for i in range(1, len(row) - 1):
@@ -85,7 +84,8 @@ def print_dict(data):
         print i, data[i]
     return
 
-def department_table_html(data): #, caption, rowheaders, colheaders):
+
+def department_table_html(data, caption, rowheaders, colheaders):
     """
     Format Department code and description into an HTML table
 
@@ -95,11 +95,6 @@ def department_table_html(data): #, caption, rowheaders, colheaders):
     colheaders -- the table's column headings
 
     """
-    print "aaaaa"
-    print len(data)
-    for i in data:
-        print i, data[i]
-    return
     template = Template('<html>\n<table>\n'
         '<caption>{{caption}}</caption>\n'
         '<thead>\n'
@@ -115,13 +110,32 @@ def department_table_html(data): #, caption, rowheaders, colheaders):
             '<tr> '
             '<th>{{rowheader}}</th> '
             '{% for colheader in colheaders %}'
-                '<td>{{"%1.2e"|format(data[colheader][rowheader])|escape}}</td> '
+                '<td>{{"%s"|format(data[colheader][rowheader])|escape}}</td> '
             '{% endfor %}'
             '</tr>\n'
         '{% endfor %}'
         '</tbody>\n'
         '</table>\n</html>\n')
-    return template.render(data=data, caption=caption, rowheaders=rowheaders, colheaders=colheaders)
+    return template.render(data=data, caption=caption,
+        rowheaders=rowheaders, colheaders=colheaders)
+
+
+def process_options(arglist=None):
+    """
+    Process options passed either via arglist or via command line args.
+
+    """
+
+    parser = OptionParser(arglist)
+    #parser.add_option("-f","--file",dest="filename",
+    #                  help="file to be converted",metavar="FILE")
+    #parser.add_option("-d","--date",dest="date",
+    #                  help="published DATE",metavar="DATE")
+    parser.add_option("-v", action="store_true", dest="verbose", default=False,
+                      help="print status messages to stdout")
+
+    (options, args) = parser.parse_args()
+    return options, args
 
 
 def main():
@@ -132,12 +146,14 @@ def main():
 
     """
 
-    parser = OptionParser()
-    parser.add_option("-v", action="store_true", dest="verbose", default=False, help="print status messages to stdout")
-    (options, args) = parser.parse_args()
-
+    (options, args) = process_options()
+    if len(args) == 0:
+        input_filename = '../data/clean2000.csv'
+    else:
+        input_filename = args[0]
+    #output_filename = 'fact_2009_10_2000.csv'
     # read in the COINS data
-    (data_type, department, account, data_subtype, Counterparty_code) = read_csv("../data/clean2000.csv")
+    (data_type, department, account, data_subtype, Counterparty_code) = read_coins_csv(input_filename)
     print "\ndata type"
     print_dict(data_type)
     print "\ndepartment"
