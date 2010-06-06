@@ -9,9 +9,13 @@ Converts COINS text files from UTF-16 to UTF-8
 from optparse import OptionParser
 import codecs
 import time
+import csv
 
 TIME_FIELD = 8
 VALUE_FIELD = 80
+DEPARTMENT_CODE_FIELD = 2
+
+FIELD_COUNT = 81
 
 def _normalize_time_field(time_val):
     """
@@ -46,6 +50,7 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
 
     """
     input_file = codecs.open(input_filename, 'r', 'utf_16_le', 'ignore')
+    csv_writer = csv.writer(open(output_filename+'.xxx.', 'w'))
     output_file = codecs.open(output_filename, 'w', 'utf_8', 'ignore')
     start_time = time.time()
     reporting_interval = 1000
@@ -61,33 +66,55 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
     out_line += fields[interesting_fields[-1]]
     output_file.write("%s\n" % out_line)
     print out_line
+    row = []
+    for i in interesting_fields:
+        row.append(fields[i].encode( "utf-8" ))
+    csv_writer.writerow(row)
 
     # read in the data
     try:
         count = 0
+        zero_count = 0
+        bad_row_count = 0
         while 1:
             line = input_file.next()
             line = line.replace(u'NULL','').strip()
             fields = line.split('@')
-            if fields[VALUE_FIELD] != '0':
-                fields[TIME_FIELD] = _normalize_time_field(fields[TIME_FIELD])
-                out_line = ''
-                for i in interesting_fields[:-1]:
-                    out_line += fields[i] + '@'
-                out_line += fields[interesting_fields[-1]]
-                output_file.write("%s\n" % out_line)
-                count += 1
-                if verbose and count % reporting_interval == 0:
-                    elapsed_time = time.time() - start_time
-                    print('%s: %s' % (count, elapsed_time))
-                if limit > 0 and count >= limit:
-                    break
+            if line.find(';') != -1:
+                print "Line contains semicolon"
+                print line
+            if len(fields) != FIELD_COUNT:
+                bad_row_count += 1
+                print "Skipping row with %d columns"%len(fields)
+                print line
+                continue
+            if fields[VALUE_FIELD] == '0':
+                zero_count += 1
+                continue
+            fields[TIME_FIELD] = _normalize_time_field(fields[TIME_FIELD])
+            out_line = ''
+            for i in interesting_fields[:-1]:
+                out_line += fields[i] + '@'
+            out_line += fields[interesting_fields[-1]]
+            output_file.write("%s\n" % out_line)
+            #row = []
+            #for i in interesting_fields:
+            #    row.append(fields[i].encode( "utf-8" ))
+            #csv_writer.writerow(row)
+            if verbose and count % reporting_interval == 0:
+                elapsed_time = time.time() - start_time
+                print('%s: %s' % (count, elapsed_time))
+            count += 1
+            if limit > 0 and count >= limit:
+                break
     except StopIteration:
         pass
 
     elapsed_time = time.time() - start_time
     print('Elapsed: %s' % elapsed_time)
     print('Count: %s' % count)
+    print('Zero count: %s' % zero_count)
+    print('Bad row count: %s' % bad_row_count)
     return
 
 
@@ -121,7 +148,7 @@ def main():
         input_filename = args[0]
     output_filename = '../data/fact_2009_10_1000.csv'
     convert_to_utf8(output_filename, input_filename, 1000, True)
-    output_filename = '../data/fact_2009_10.csv'
+    #output_filename = '../data/fact_2009_10.csv'
     #convert_to_utf8(output_filename, input_filename, 0, True)
 
 

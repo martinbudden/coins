@@ -43,7 +43,7 @@ def read_coins_csv(filename):
         14 - Programme_object_group_description
         20 - Resource_Capital
         22 - CGA_Body_Type
-        24  -Dept_Group
+        24 - Dept_Group
         56 - Sector
         80 - Value
     interesting_fields = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,20,22,24,56,80]
@@ -53,7 +53,7 @@ def read_coins_csv(filename):
     department = {}
     account = {}
     data_subtype = {}
-    Counterparty_code = {}
+    counterparty_code = {}
     reader = csv.reader(open(filename, "rb"), 'excel', delimiter='@')
 
 
@@ -73,11 +73,11 @@ def read_coins_csv(filename):
             department[row[2]] = row[3]
             account[row[4]] = row[5]
             data_subtype[row[6]] = row[7]
-            Counterparty_code[row[8]] = row[9]
+            counterparty_code[row[8]] = row[9]
             #print "aa",row[2],row[3]
     except StopIteration:
         pass
-    return data_type, department, account, data_subtype, Counterparty_code
+    return data_type, department, account, data_subtype, counterparty_code
 
 
 def print_dict(data):
@@ -87,6 +87,20 @@ def print_dict(data):
     """
     for i in data:
         print i, data[i]
+    return
+
+
+def write_data_csv(filename, data):
+    """
+    Write data out as a .csv file.
+
+    """
+    csv_writer = csv.writer(open(filename, 'w'))
+    for i in data:
+        row = []
+        row.append(i)
+        row.append(data[i])
+        csv_writer.writerow(row)
     return
 
 
@@ -153,22 +167,26 @@ def main():
 
     (options, args) = process_options()
     if len(args) == 0:
-        input_filename = '../data/clean2000.csv'
+        input_filename = '../data/fact_2009_10_1000.csv'
     else:
         input_filename = args[0]
     #output_filename = 'fact_2009_10_2000.csv'
     # read in the COINS data
-    (data_type, department, account, data_subtype, Counterparty_code) = read_coins_csv(input_filename)
+    (data_type, department, account, data_subtype, counterparty_code) = read_coins_csv(input_filename)
     print "\ndata type"
     print_dict(data_type)
+    write_data_csv('../data/data_type.csv',data_type)
     print "\ndepartment"
     print_dict(department)
+    write_data_csv('../data/department.csv',department)
     print "\naccount"
     print_dict(account)
+    write_data_csv('../data/account.csv',account)
     print "\ndata subtype"
     print_dict(data_subtype)
+    write_data_csv('../data/data_subtype.csv',data_subtype)
     print "\n counterparty code"
-    print_dict(Counterparty_code)
+    print_dict(counterparty_code)
 
 
 if __name__ == "__main__":
