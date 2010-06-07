@@ -1,2 +1,2 @@
 #!/bin/bash
-pylint -rn --rcfile=.pylintrc *.py
+pylint -rn --rcfile=pylintrc *.py

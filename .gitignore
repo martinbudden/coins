@@ -5,5 +5,6 @@ interesting_files.txt
 html/*
 data/*.txt
 data/*.zip
+data/depts/*.csv
 docs/100111_COINS_Schema_for_FOI_9_1049.xls
 docs/coins_guidance_040610.pdf

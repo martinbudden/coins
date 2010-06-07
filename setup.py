@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
-from example import __version__ as VERSION
+from coins import __version__ as VERSION
 
 
 setup(
     name = 'coins',
     version = VERSION,
-    description = 'Converts HM Treasury COINS text files to an SQLite database',
+    description = 'Utilities to read HM Treasury COINS files, and to convert to more useful formats',
     author = 'Martin Budden',
     author_email = '',
     platforms = 'Posix; MacOS X; Windows',

@@ -50,8 +50,9 @@ disable-msg-cat=I
 #enable-msg=
 
 # Disable the message(s) with the given id(s).
-disable-msg=W0704,W0212
+disable-msg=W0704,W0212,R0801
 #W0212: Access to a protected member _pack_value of a client class
+#R0801: Similar lines in 2 files
 
 
 [REPORTS]
@@ -218,7 +219,8 @@ max-args=5
 ignored-argument-names=_.*
 
 # Maximum number of locals for function / method body
-max-locals=15
+max-locals=20
+# default 15
 
 # Maximum number of return / yield for function / method body
 max-returns=2

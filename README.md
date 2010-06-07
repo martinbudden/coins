@@ -7,7 +7,13 @@ This repository contains utilities to read HM Treasury COINS (Combined Online In
 Installation
 ------------
 
-Installation instructions here
+Install the [git](http://git-scm.com/download) version control system
+
+Download this repository:
+
+    git clone git@github.com:martinbudden/coins.git
+
+Install python, if you do not already have it.
 
 
 Usage
@@ -19,6 +25,27 @@ Before running any of these utilities the HM Treasury COINS files should be down
 * fact_table_extract_2008_09.txt
 * adjustment_table_extract_2009_10.txt
 * adjustment_table_extract_2008_09.txt
+
+These files are in UTF-16 format and need to be converted to UTF-8 format for easier usage. Run coins2utf8.py to do this:
+
+    python coins2utf8.py
+
+This currently only operates on the fact_table_extract_2009_10.txt file. It currently does three operations:
+
+* converts the file to UTF-8 csv format (field delimiter is still '@')
+* extracts only those records where the 'Value' field is non-zero
+* extracts only a subset of the fields - the uninteresting fields have been discarded.
+
+The output of coins2utf8.py is the file facts_2009_10_nz_fs.csv. Note that 'nz' stands for 'non-zero' and 'fs' stands for 'field subset'.
+
+Next run coinsdescriptions.py. This extracts varies coins codes and descriptions (eg department_code and department_description) and places them in .csv files the data/desc directory. These files are standard .csv files and can be loaded into (say) Excel.
+
+    python coinsdescriptions.py
+
+Next run coinsdepartments.py. This uses the department.csv file produced by coinsdescription.py, and produces a .csv file for each government department. Many of these .csv files are small enough (less than 65,535 rows) to be loaded into Excel. These files are in the data/depts directory, and are named: 
+"coin_<date_period>_<dept_code>_nz_fs.csv, eg coins_2009_10_ABR017_nz_fs.csv.
+
+    python coinsdepartments.py
 
 
 Data Source

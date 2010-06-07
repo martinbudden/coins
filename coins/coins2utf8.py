@@ -9,13 +9,8 @@ Converts COINS text files from UTF-16 to UTF-8
 from optparse import OptionParser
 import codecs
 import time
-import csv
 
-TIME_FIELD = 8
-VALUE_FIELD = 80
-DEPARTMENT_CODE_FIELD = 2
-
-FIELD_COUNT = 81
+import coinsfields
 
 def _normalize_time_field(time_val):
     """
@@ -50,26 +45,23 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
 
     """
     input_file = codecs.open(input_filename, 'r', 'utf_16_le', 'ignore')
-    csv_writer = csv.writer(open(output_filename+'.xxx.', 'w'))
+    delimiter = '@'
+
     output_file = codecs.open(output_filename, 'w', 'utf_8', 'ignore')
+    output_fields = coinsfields.FIELD_SUBSET_0
+
     start_time = time.time()
     reporting_interval = 1000
-    interesting_fields = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 20, 22, 24, 56, 80]
 
     # read in the column headers
     line = input_file.next()
     line = line.replace(u'NULL','').strip()
-    fields = line.split('@')
+    fields = line.split(delimiter)
     out_line = ''
-    for i in interesting_fields[:-1]:
-        out_line += fields[i] + '@'
-    out_line += fields[interesting_fields[-1]]
+    for i in output_fields[:-1]:
+        out_line += fields[i] + delimiter
+    out_line += fields[output_fields[-1]]
     output_file.write("%s\n" % out_line)
-    print out_line
-    row = []
-    for i in interesting_fields:
-        row.append(fields[i].encode( "utf-8" ))
-    csv_writer.writerow(row)
 
     # read in the data
     try:
@@ -77,34 +69,27 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
         zero_count = 0
         bad_row_count = 0
         while 1:
+            count += 1
             line = input_file.next()
             line = line.replace(u'NULL','').strip()
-            fields = line.split('@')
-            if line.find(';') != -1:
-                print "Line contains semicolon"
-                print line
-            if len(fields) != FIELD_COUNT:
+            fields = line.split(delimiter)
+            if len(fields) != coinsfields.FIELD_COUNT:
                 bad_row_count += 1
-                print "Skipping row with %d columns"%len(fields)
+                print "Skipping row with %d columns" % len(fields)
                 print line
                 continue
-            if fields[VALUE_FIELD] == '0':
+            if fields[coinsfields.VALUE] == '0':
                 zero_count += 1
                 continue
-            fields[TIME_FIELD] = _normalize_time_field(fields[TIME_FIELD])
+            fields[coinsfields.TIME] = _normalize_time_field(fields[coinsfields.TIME])
             out_line = ''
-            for i in interesting_fields[:-1]:
-                out_line += fields[i] + '@'
-            out_line += fields[interesting_fields[-1]]
+            for i in output_fields[:-1]:
+                out_line += fields[i] + delimiter
+            out_line += fields[output_fields[-1]]
             output_file.write("%s\n" % out_line)
-            #row = []
-            #for i in interesting_fields:
-            #    row.append(fields[i].encode( "utf-8" ))
-            #csv_writer.writerow(row)
             if verbose and count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (count, elapsed_time))
-            count += 1
             if limit > 0 and count >= limit:
                 break
     except StopIteration:
@@ -112,8 +97,8 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
 
     elapsed_time = time.time() - start_time
     print('Elapsed: %s' % elapsed_time)
-    print('Count: %s' % count)
-    print('Zero count: %s' % zero_count)
+    print('Number of rows: %s' % count)
+    print('Number of rows with zero value: %s' % zero_count)
     print('Bad row count: %s' % bad_row_count)
     return
 
@@ -125,10 +110,10 @@ def process_options(arglist=None):
     """
 
     parser = OptionParser(arglist)
-    #parser.add_option("-f","--file",dest="filename",
+    #parser.add_option("-f", "--file", dest="filename",
     #                  help="file to be converted",metavar="FILE")
-    #parser.add_option("-d","--date",dest="date",
-    #                  help="published DATE",metavar="DATE")
+    #parser.add_option("-d", "--date", dest="date",
+    #                  help="published DATE", metavar="DATE")
     parser.add_option("-v", action="store_true", dest="verbose", default=False,
                       help="print status messages to stdout")
 
@@ -146,10 +131,11 @@ def main():
         input_filename = '../data/fact_table_extract_2009_10.txt'
     else:
         input_filename = args[0]
-    output_filename = '../data/fact_2009_10_1000.csv'
-    convert_to_utf8(output_filename, input_filename, 1000, True)
-    #output_filename = '../data/fact_2009_10.csv'
-    #convert_to_utf8(output_filename, input_filename, 0, True)
+    verbose = True
+    output_filename = '../data/facts_2009_10_nz_fs_1000.csv'
+    convert_to_utf8(output_filename, input_filename, 1000, verbose)
+    output_filename = '../data/facts_2009_10_nz_fs.csv'
+    convert_to_utf8(output_filename, input_filename, 0, verbose)
 
 
 if __name__ == "__main__":
