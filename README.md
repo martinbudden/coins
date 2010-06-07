@@ -34,8 +34,8 @@ Treasury Information
 HM Treasury publish documents that may help to understand COINS and, and how that data may be used and aggregated. These include:
 
 * [Public spending planning and control - a brief introduction](http://www.hm-treasury.gov.uk/psr_spend_plancontrol.htm)
-* [Consolidated Budgeting Guidance](http://www.hm- treasury.gov.uk/psr_bc_consolidated_budgeting.htm)
-* [Classification papers](http://www.hm- treasury.gov.uk/psr_bac_classification_papers.htm)
+* [Consolidated Budgeting Guidance](http://www.hm-treasury.gov.uk/psr_bc_consolidated_budgeting.htm)
+* [Classification papers](http://www.hm-treasury.gov.uk/psr_bac_classification_papers.htm)
 * Information on the Supply Estimates process at: [Financial reporting - Parliamentary Supply Estimates](http://www.hm-treasury.gov.uk/psr_estimates_index.htm)
 
 Slightly differing approaches are taken to some data recording and outputs for the Devolved Administrations. Some information on that, by means of concordats, is available here: [Devolved Assemblies](http://www.hm-treasury.gov.uk/psr_devolved_assemblies.htm)
