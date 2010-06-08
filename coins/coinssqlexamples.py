@@ -61,13 +61,16 @@ def sqlite_examples(sqlite_filename, verbose):
     print cursor.fetchone()
     print
 
-    dept = 'DIS063'
-    cursor.execute('''select Value, Dept_Group from coins 
-        where Data_type=:data and Department_code=:dept and Budget_Boundary=:budget''',
+    dept = 'CHC009'
+    cursor.execute('''select Department_code, Account_code, Time, Budget_Boundary,
+        Resource_Capital, Dept_Group, Value from coins 
+        where Data_type=:data and Department_code=:dept and Budget_Boundary=:budget
+        order by Department_code''',
         {'data': 'Outturn', 'dept': dept, 'budget': 'DEL'})
     for row in cursor:
         print row
     print
+    #where Data_type=:data and Department_code=:dept and Budget_Boundary=:budget
 
 
     cursor.close()
