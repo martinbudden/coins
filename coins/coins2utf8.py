@@ -35,7 +35,7 @@ def _normalize_time_field(time_val):
     return _map.get(time_val, time_val)
 
 
-def convert_to_utf8(output_filename, input_filename, limit, verbose):
+def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbose):
     """
     Convert file from utf16 to utf8.
 
@@ -44,11 +44,13 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
     input_filenname -- the name of file to be converted
 
     """
+    if verbose:
+        print
+        print "Creating:", output_filename
     input_file = codecs.open(input_filename, 'r', 'utf_16_le', 'ignore')
     delimiter = '@'
 
     output_file = codecs.open(output_filename, 'w', 'utf_8', 'ignore')
-    output_fields = coinsfields.FIELD_SUBSET_0
 
     start_time = time.time()
     reporting_interval = 1000
@@ -67,6 +69,7 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
     try:
         count = 0
         zero_count = 0
+        non_zero_count = 0
         bad_row_count = 0
         while 1:
             count += 1
@@ -81,6 +84,7 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
             if fields[coinsfields.VALUE] == '0':
                 zero_count += 1
                 continue
+            non_zero_count += 1
             fields[coinsfields.TIME] = _normalize_time_field(fields[coinsfields.TIME])
             out_line = ''
             for i in output_fields[:-1]:
@@ -90,7 +94,7 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
             if verbose and count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (count, elapsed_time))
-            if limit > 0 and count >= limit:
+            if limit > 0 and non_zero_count >= limit:
                 break
     except StopIteration:
         pass
@@ -100,6 +104,7 @@ def convert_to_utf8(output_filename, input_filename, limit, verbose):
     print('Number of rows: %s' % count)
     print('Number of rows with zero value: %s' % zero_count)
     print('Bad row count: %s' % bad_row_count)
+    print
     return
 
 
@@ -133,9 +138,11 @@ def main():
         input_filename = args[0]
     verbose = True
     output_filename = '../data/facts_2009_10_nz_fs_1000.csv'
-    convert_to_utf8(output_filename, input_filename, 1000, verbose)
-    output_filename = '../data/facts_2009_10_nz_fs.csv'
-    convert_to_utf8(output_filename, input_filename, 0, verbose)
+    convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 1000, verbose)
+    output_filename = '../data/facts_2009_10_nz_1000.csv'
+    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 1000, verbose)
+    #output_filename = '../data/facts_2009_10_nz_fs.csv'
+    #convert_to_utf8(output_filename, input_filename, 0, verbose)
 
 
 if __name__ == "__main__":
