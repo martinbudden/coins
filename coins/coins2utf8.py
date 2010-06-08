@@ -26,7 +26,7 @@ def _normalize_time_field(time_val):
         'September 2009 MTH': u'2009.09',
         'October 2009 MTH': u'2009.10',
         'November 2009 MTH': u'2009.11',
-        'December 2009 MTH': u'2009.12'
+        'December 2009 MTH': u'2009.12',
         'January 2010 MTH': u'2010.01',
         'February 2010 MTH': u'2010.02',
         'March 2010 MTH': u'2010.03'
@@ -139,7 +139,11 @@ def main():
     convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 1000, verbose)
     output_filename = '../data/facts_2009_10_nz_1000.csv'
     convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 1000, verbose)
+
     output_filename = '../data/facts_2009_10_nz.csv'
+    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
+    input_filename = '../data/fact_table_extract_2008_09.txt'
+    output_filename = '../data/facts_2008_09_nz.csv'
     convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
 
 

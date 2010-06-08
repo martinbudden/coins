@@ -152,7 +152,7 @@ def write_sqlite(input_filename, date, limit, verbose):
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (row_count, elapsed_time))
-                print 'row tuple', t
+                print 'row:', t
                 print
             row_count += 1
             cursor.execute('insert into coins values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', t)
