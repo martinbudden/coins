@@ -88,7 +88,15 @@ HM Treasury publish documents that may help to understand COINS and, and how tha
 
 Slightly differing approaches are taken to some data recording and outputs for the Devolved Administrations. Some information on that, by means of concordats, is available here: [Devolved Assemblies](http://www.hm-treasury.gov.uk/psr_devolved_assemblies.htm)
 
-HM Treasury publishes a number of documents based COINS data. Public Spending Statistics are available here: [Statistics on Public Finance and Spending](http://www.hm-treasury.gov.uk/finexp_index.htm)
+HM Treasury publishes a number of documents based COINS data. Public Spending Statistics are available here: [Statistics on Public Finance and Spending](http://www.hm-treasury.gov.uk/finexp_index.htm).
+
+
+Checking Data
+-------------
+
+[PESA 2010 section 1 - Budgets](http://www.hm-treasury.gov.uk/pesa2010_section1.htm) gives the outrun DEL, AME, Capital and Resource outrun figures for 2004-05 to 2008-09. Outrun figures from the COINS 2008/09 Fact table can be checked against these tables.
+
+[Public Expenditure Statistical Analyses 2009](http://www.hm-treasury.gov.uk/pespub_pesa09.htm) gives the outrun DEL, AME, Capital and Resource outrun figures for 2003-04 to 2007-08 and the estimated outrun for 2008-09 and the planned outruns for 2009-10 and 2010-2011. Forecast figures from the COINS 2009/10 Fact table can be checked against these tables.
 
 
 Useful links
