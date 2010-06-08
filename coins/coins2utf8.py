@@ -18,18 +18,18 @@ def _normalize_time_field(time_val):
 
     """
     _map = {
-        'January 2010 MTH': u'2010-01',
-        'February 2010 MTH': u'2010-02',
-        'March 2010 MTH': u'2010-03',
-        'April 2009 MTH': u'2009-04',
-        'May 2009 MTH': u'2009-05',
-        'June 2009 MTH': u'2009-06',
-        'July 2009 MTH': u'2009-07',
-        'August 2009 MTH': u'2009-08',
-        'September 2009 MTH': u'2009-09',
-        'October 2009 MTH': u'2009-10',
-        'November 2009 MTH': u'2009-11',
-        'December 2009 MTH': u'2009-12'
+        'April 2009 MTH': u'2009.04',
+        'May 2009 MTH': u'2009.05',
+        'June 2009 MTH': u'2009.06',
+        'July 2009 MTH': u'2009.07',
+        'August 2009 MTH': u'2009.08',
+        'September 2009 MTH': u'2009.09',
+        'October 2009 MTH': u'2009.10',
+        'November 2009 MTH': u'2009.11',
+        'December 2009 MTH': u'2009.12'
+        'January 2010 MTH': u'2010.01',
+        'February 2010 MTH': u'2010.02',
+        'March 2010 MTH': u'2010.03'
     }
     return _map.get(time_val, time_val)
 
