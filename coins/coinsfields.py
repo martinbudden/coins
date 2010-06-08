@@ -31,9 +31,62 @@ Interesting COINS fields:
     22 - CGA_Body_Type
     23 - COFOG
     24 - Dept_Group
-    56 - Sector
-    80 - Value
-
+    Estimate_line
+    Estimate_line_last_year
+    Estimate_line_next_year
+    ESA
+    Estimates_AinA
+    Estimates_capital_current
+    EU
+    Income_Category
+    LG
+    LG_Body_Type
+    Estimate_number
+    Estimate_number_last_year
+    Estimate_number_next_year
+    NAC
+    Near_Cash_Non_Cash
+    NHS_Body_Type
+    PC_Body_Type
+    PESA
+    PESA_1_1
+    PESA_AEF_Grants
+    PESA_Capital_Support
+    PESA_Current_Grants
+    PESA_Delivery
+    PESA_Non_AEF_Grants
+    PESA_Services
+    PESA_Tables
+    PESA_Transfer
+    Request_for_resources
+    Request_for_resources_last_year
+    Request_for_resources_next_year
+    SBI
+    Sector
+    SIGNAGE
+    Territory
+    Cbal
+    Grant_Provision
+    Levy_Funded
+    Local_Government_Use_only
+    Net_Subhead
+    Non_ID_Exceptions
+    NotOCS
+    Obal
+    Outside TES
+    Pension
+    PESA_1_1_CAP
+    PESA_1_1_EC_Payments
+    PESA_1_1_Local_Exp
+    PESA_1_1_Nat_Lottery
+    PESA_1_1_Tax_Credits
+    PESA_1_2_NHS
+    PESA_1_4_Locally_Financed
+    PESA_BBC
+    PESA_STU_LOANS
+    Social_Fund
+    Trust_Debt_Remuneration
+    Value
 """
 
 #Column numbers for COINS fields (zero based)
@@ -99,6 +152,8 @@ SIGNAGE = 57
 TERRITORY = 58
 VALUE = 80
 
+
 # subset of interesting fields in the COINS database
-FIELD_SUBSET_0 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+FIELD_SUBSET_0 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24, 25,
     ESA, ESTIMATE_NUMBER, NAC, PESA, SBI, SECTOR, TERRITORY, VALUE]

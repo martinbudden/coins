@@ -17,7 +17,6 @@ def _normalize_time_field(time_val):
     Convert time field value to normalized form.
 
     """
-
     _map = {
         'January 2010 MTH': u'2010-01',
         'February 2010 MTH': u'2010-02',
@@ -113,7 +112,6 @@ def process_options(arglist=None):
     Process options passed either via arglist or via command line args.
 
     """
-
     parser = OptionParser(arglist)
     #parser.add_option("-f", "--file", dest="filename",
     #                  help="file to be converted",metavar="FILE")
@@ -129,8 +127,8 @@ def process_options(arglist=None):
 def main():
     """
     Parse options and convert file.
-    """
 
+    """
     (options, args) = process_options()
     if len(args) == 0:
         input_filename = '../data/fact_table_extract_2009_10.txt'
@@ -141,8 +139,8 @@ def main():
     convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 1000, verbose)
     output_filename = '../data/facts_2009_10_nz_1000.csv'
     convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 1000, verbose)
-    #output_filename = '../data/facts_2009_10_nz_fs.csv'
-    #convert_to_utf8(output_filename, input_filename, 0, verbose)
+    output_filename = '../data/facts_2009_10_nz.csv'
+    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
 
 
 if __name__ == "__main__":

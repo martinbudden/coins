@@ -42,10 +42,31 @@ Next run coinsdescriptions.py. This extracts varies coins codes and descriptions
 
     python coinsdescriptions.py
 
-Next run coinsdepartments.py. This uses the department.csv file produced by coinsdescription.py, and produces a .csv file for each government department. Many of these .csv files are small enough (less than 65,535 rows) to be loaded into Excel. These files are in the data/depts directory, and are named: 
-"coin_<date_period>_<dept_code>_nz_fs.csv, eg coins_2009_10_ABR017_nz_fs.csv.
+This completes the preliminary preprocessing of the coins files. You may now run coinsdepartments.py to produce .csv files that can be directly loaded into Excel, or coins2sqlite.py which produces an Sqlite database of the coins data.
+
+
+###Producing COINS files that can be loaded into Excel
+
+Run coinsdepartments.py. This uses the the facts.csv file output from coins2utf8.py and the department.csv file produced by coinsdescription.py, to produce a .csv file for each government department. 
 
     python coinsdepartments.py
+
+Most of these .csv files are small enough (less than 65,535 rows) to be loaded into Excel. These files are in the data/depts directory, and are named: 
+
+    coin_<date_period>_<dept_code>_nz_fs.csv, eg coins_2009_10_ABR017_nz_fs.csv.
+
+
+###Producing a COINS Sqlite database
+
+Run coins2sqlite.py. This uses the the facts.csv file output from coins2utf8.py and the description .csv files produced by coinsdescription.py, to produce an Sqlite database that can be queried.
+
+    python coins2sqlite.py
+
+This produces a file called coins_2009_10_sqlite.db in the data/sqlite directory
+
+###Example SQL queries
+
+Run coinssqlexamples.py. This executes a number of example queries on the COINS Sqlite datbase, coins_2009_10_sqlite.db.
 
 
 Data Source
@@ -79,7 +100,7 @@ Useful links
 * Open Knowledge Foundation Blog - [COINS: A Users Guide](http://blog.okfn.org/2010/06/04/coins-a-users-guide/)
 * What Do They Know [COINS database schema](http://www.whatdotheyknow.com/request/25039/response/67260/attach/3/100111%20COINS%20Schema%20for%20FOI%209%201049.xls)
 * EtherPad - [Coins open notepad](http://pad.okfn.org/coins)
-* Google spreadshee of [COINS Schema overview:](http://spreadsheets.google.com/ccc?key=0Ah8UkI7xG7eWdHpYMnhaWmR5NVdNUG9yTkNfQVlUTWc&hl=en_GB)
+* Google spreadsheet of [COINS Schema overview:](http://spreadsheets.google.com/ccc?key=0Ah8UkI7xG7eWdHpYMnhaWmR5NVdNUG9yTkNfQVlUTWc&hl=en_GB)
 
 
 Coding resources

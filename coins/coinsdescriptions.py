@@ -7,6 +7,7 @@ Read a COINS .csv and output the codes and their descriptions to .csv files.
 eg department_code and department_description are placed in data/desc/departments.csv
 """
 
+import os
 import csv
 from optparse import OptionParser
 
@@ -30,7 +31,9 @@ def read_coins_csv(filename):
     department = {}
     account = {}
     data_subtype = {}
-    counterparty_code = {}
+    counterparty = {}
+    programme_object = {}
+    programme_object_group = {}
     reader = csv.reader(open(filename, "rb"), 'excel', delimiter='@')
 
     # read in the first row, which contains the column headings
@@ -40,17 +43,47 @@ def read_coins_csv(filename):
     column_headings = reader.next()
 
     try:
-        while 1:
+        while True:
             row = reader.next()
             data_type[row[coinsfields.DATA_TYPE]] = row[coinsfields.DATA_TYPE_DESCRIPTION]
             department[row[coinsfields.DEPARTMENT_CODE]] = row[coinsfields.DEPARTMENT_DESCRIPTION]
             account[row[coinsfields.ACCOUNT_CODE]] = row[coinsfields.ACCOUNT_DESCRIPTION]
             data_subtype[row[coinsfields.DATA_SUBTYPE]] = row[coinsfields.DATA_SUBTYPE_DESCRIPTION]
-            counterparty_code[row[coinsfields.COUNTERPARTY_CODE]] = row[coinsfields.COUTERPARTY_DESCRIPTION]
-            #program_object_code[row[PROGRAMME_OBJECT_CODE]] = row[PROGRAMME_OBJECT_DESCRIPTION]
+            counterparty[row[coinsfields.COUNTERPARTY_CODE]] = row[coinsfields.COUTERPARTY_DESCRIPTION]
+            programme_object[row[coinsfields.PROGRAMME_OBJECT_CODE]] = row[coinsfields.PROGRAMME_OBJECT_DESCRIPTION]
+            programme_object_group[row[coinsfields.PROGRAMME_OBJECT_GROUP_CODE]] = row[coinsfields.PROGRAMME_OBJECT_GROUP_DESCRIPTION]
     except StopIteration:
         pass
-    return column_headings, data_type, department, account, data_subtype, counterparty_code
+
+    if not os.path.isdir('../data/desc'):
+        os.makedirs('../data/desc')
+    print "data type"
+    write_data_csv('../data/desc/data_type.csv', data_type,
+        column_headings[coinsfields.DATA_TYPE], column_headings[coinsfields.DATA_TYPE_DESCRIPTION])
+
+    print "department"
+    write_data_csv('../data/desc/department.csv', department,
+        column_headings[coinsfields.DEPARTMENT_CODE], column_headings[coinsfields.DEPARTMENT_DESCRIPTION])
+
+    print "account"
+    write_data_csv('../data/desc/account.csv', account,
+        column_headings[coinsfields.ACCOUNT_CODE], column_headings[coinsfields.ACCOUNT_DESCRIPTION])
+
+    print "data subtype"
+    write_data_csv('../data/desc/data_subtype.csv', data_subtype,
+        column_headings[coinsfields.DATA_SUBTYPE], column_headings[coinsfields.DATA_SUBTYPE_DESCRIPTION])
+
+    print "counterparty"
+    write_data_csv('../data/desc/counterparty.csv', counterparty,
+        column_headings[coinsfields.COUNTERPARTY_CODE], column_headings[coinsfields.COUTERPARTY_DESCRIPTION])
+
+    print "program_object"
+    write_data_csv('../data/desc/programme_object.csv', programme_object,
+        column_headings[coinsfields.PROGRAMME_OBJECT_CODE], column_headings[coinsfields.PROGRAMME_OBJECT_DESCRIPTION])
+
+    print "programme_object_group"
+    write_data_csv('../data/desc/programme_object_group.csv', programme_object_group,
+        column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_CODE], column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_DESCRIPTION])
 
 
 def write_data_csv(filename, data, field_name, field_description):
@@ -70,7 +103,6 @@ def process_options(arglist=None):
     Process options passed either via arglist or via command line args.
 
     """
-
     parser = OptionParser(arglist)
     #parser.add_option("-f", "--file", dest="filename",
     #                  help="file to be converted", metavar="FILE")
@@ -89,34 +121,13 @@ def main():
     Write out code and description .csv files.
 
     """
-
     (options, args) = process_options()
     if len(args) == 0:
-        input_filename = '../data/fact_2009_10.csv'
+        input_filename = '../data/facts_2009_10_nz.csv'
     else:
         input_filename = args[0]
     # read in the COINS data
-    (column_headings, data_type, department, account, data_subtype, counterparty_code) = read_coins_csv(input_filename)
-
-    print "data type"
-    write_data_csv('../data/desc/data_type.csv', data_type,
-        column_headings[coinsfields.DATA_TYPE], column_headings[coinsfields.DATA_TYPE_DESCRIPTION])
-
-    print "department"
-    write_data_csv('../data/desc/department.csv', department,
-        column_headings[coinsfields.DEPARTMENT_CODE], column_headings[coinsfields.DEPARTMENT_DESCRIPTION])
-
-    print "account"
-    write_data_csv('../data/desc/account.csv', account,
-        column_headings[coinsfields.ACCOUNT_CODE], column_headings[coinsfields.ACCOUNT_DESCRIPTION])
-
-    print "data subtype"
-    write_data_csv('../data/desc/data_subtype.csv', data_subtype,
-        column_headings[coinsfields.DATA_SUBTYPE], column_headings[coinsfields.DATA_SUBTYPE_DESCRIPTION])
-
-    print "counterparty code"
-    write_data_csv('../data/desc/counterparty_code.csv', counterparty_code,
-        column_headings[coinsfields.COUNTERPARTY_CODE], column_headings[coinsfields.COUTERPARTY_DESCRIPTION])
+    read_coins_csv(input_filename)
 
 
 if __name__ == "__main__":

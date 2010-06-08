@@ -27,8 +27,6 @@ def write_dept_csv(input_filename, date, dept_code, limit, verbose):
     verbose -- give detailed status updates.
 
     """
-
-
     csv_reader = csv.reader(open(input_filename, "rb"), 'excel', delimiter='@')
     output_filename = DEPT_FILENAME_TEMPLATE % {'date':date, 'dept_code':dept_code}
     csv_writer = csv.writer(open(output_filename, 'w'))
@@ -36,7 +34,7 @@ def write_dept_csv(input_filename, date, dept_code, limit, verbose):
     # read in the first row, which contains the column headings
     # eg Data_type, Data_type_description,
     column_headings = csv_reader.next()
-    csv_writer.writerow(column_headings)
+    csv_writer.writerow(column_headings.encode('utf-8'))
 
     start_time = time.time()
     reporting_interval = 50000
@@ -148,7 +146,7 @@ def main():
 
     (options, args) = process_options()
     if len(args) == 0:
-        input_filename = '../data/fact_2009_10.csv'
+        input_filename = '../data/facts_2009_10_nz_fs_1000.csv'
     else:
         input_filename = args[0]
     limit = 0
