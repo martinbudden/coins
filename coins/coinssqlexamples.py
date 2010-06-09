@@ -7,6 +7,7 @@ Examples of SQL queries on the COINS database.
 """
 
 import sqlite3
+import locale
 from optparse import OptionParser
 
 
@@ -22,56 +23,168 @@ def sqlite_examples(sqlite_filename, verbose):
     cursor = connection.cursor()
 
     print "One row from the 'data_type' table:"
-    cursor.execute('''select * from data_type''')
+    cursor.execute('''SELECT * FROM data_type''')
     print cursor.fetchone()
     print
 
     print "One row from the 'account' table:"
-    cursor.execute('''select * from account''')
+    cursor.execute('''SELECT * FROM account''')
     print cursor.fetchone()
     print
 
     print "One row from the 'department' table:"
-    cursor.execute('''select * from department''')
+    cursor.execute('''SELECT * FROM department''')
     print cursor.fetchone()
     print
 
     print "One row from the 'counterparty' table:"
-    cursor.execute('''select * from counterparty''')
+    cursor.execute('''SELECT * FROM counterparty''')
     print cursor.fetchone()
     print
 
     print "One row from the 'counterparty' table:"
-    cursor.execute('''select * from counterparty''')
+    cursor.execute('''SELECT * FROM counterparty''')
     print cursor.fetchone()
     print
 
     print "One row from the 'programme_object' table:"
-    cursor.execute('''select * from programme_object''')
+    cursor.execute('''SELECT * FROM programme_object''')
     print cursor.fetchone()
     print
 
     print "One row from the 'programme_object_group' table:"
-    cursor.execute('''select * from programme_object_group''')
+    cursor.execute('''SELECT * FROM programme_object_group''')
     print cursor.fetchone()
     print
 
     print "One row from the 'coins' table:"
-    cursor.execute('''select * from coins''')
+    cursor.execute('''SELECT * FROM outturn''')
     print cursor.fetchone()
     print
 
+    print "outturn Distinct Data_types"
+    cursor.execute('''SELECT DISTINCT Data_type FROM outturn''')
+    for row in cursor:
+        print row[0]
+    print
+
+    print "outturn Distinct Data_subtypes"
+    cursor.execute('''SELECT DISTINCT Data_subtype FROM outturn''')
+    for row in cursor:
+        print row[0]
+    print
+
+    print "outturn count"
+    cursor.execute('''SELECT COUNT(*) FROM outturn''')
+    print 'COUNT:', cursor.fetchone()[0]
+    print
+
+    print "plans count"
+    cursor.execute('''SELECT COUNT(*) FROM plans''')
+    print 'COUNT:', cursor.fetchone()[0]
+    print
+
+    print "CHC009 DEL outturn"
     dept = 'CHC009'
-    cursor.execute('''select Department_code, Account_code, Time, Budget_Boundary,
-        Resource_Capital, Dept_Group, Value from coins 
-        where Data_type=:data and Department_code=:dept and Budget_Boundary=:budget
-        order by Department_code''',
+    cursor.execute('''SELECT Department_code, department.description,
+        Value,
+        data_subtype,
+        Account_code, account.description,
+        Counterparty_code,
+        Time, Budget_Boundary,
+        Resource_Capital,
+        Dept_Group,
+        CGA_Body_Type,
+        COFOG,
+        PESA,
+        Territory
+        FROM outturn
+        JOIN department
+        ON department.code=outturn.Department_code
+        JOIN account
+        ON account.code=outturn.Account_code
+        WHERE Data_type=:data and Department_code=:dept and Budget_Boundary=:budget and Resource_Capital="Capital"
+        and (Data_subtype LIKE "%Approved%" or Data_subtype="Submitted (Outturn)")
+        ORDER BY Department_code''',
         {'data': 'Outturn', 'dept': dept, 'budget': 'DEL'})
+    print cursor.fetchone()
     for row in cursor:
         print row
     print
-    #where Data_type=:data and Department_code=:dept and Budget_Boundary=:budget
 
+    print "CHC009 DEL outturn TOTAL"
+    cursor.execute('''SELECT SUM(Value)
+        FROM outturn
+        WHERE Department_code=:dept and Budget_Boundary=:budget and Resource_Capital="Capital"
+        and (Data_subtype LIKE "%Approved%" or Data_subtype="Submitted (Outturn)")''',
+        {'dept': dept, 'budget': 'DEL'})
+    print 'TOTAL:', cursor.fetchone()[0]
+    print
+
+    locale.setlocale(locale.LC_ALL, "")
+    cursor.execute('''SELECT SUM(Value)
+        FROM outturn
+        WHERE Budget_Boundary="DEL" and Resource_Capital="Capital"
+        and (Data_subtype LIKE "%Approved%" or Data_subtype="Submitted (Outturn)")''')
+    print 'TOTAL DEL Capital: ', locale.format('%d', cursor.fetchone()[0], True)
+
+    cursor.execute('''SELECT SUM(Value)
+        FROM outturn
+        WHERE Budget_Boundary="AME" and Resource_Capital="Capital"
+        and (Data_subtype LIKE "%Approved%" or Data_subtype="Submitted (Outturn)")''')
+    print 'TOTAL AME Capital: ', locale.format('%d', cursor.fetchone()[0], True)
+
+    cursor.execute('''SELECT SUM(Value)
+        FROM outturn
+        WHERE Budget_Boundary="DEL" and Resource_Capital="Resource"
+        and (Data_subtype LIKE "%Approved%" or Data_subtype="Submitted (Outturn)")''')
+    print 'TOTAL DEL Resource:', locale.format('%d', cursor.fetchone()[0], True)
+
+    cursor.execute('''SELECT SUM(Value)
+        FROM outturn
+        WHERE Budget_Boundary="AME" and Resource_Capital="Resource"
+        and (Data_subtype LIKE "%Approved%" or Data_subtype="Submitted (Outturn)")''')
+    print 'TOTAL AME Resource:', locale.format('%d', cursor.fetchone()[0], True)
+    print
+
+    cursor.close()
+    connection.close()
+
+
+def sqlite_examples2(sqlite_filename, verbose):
+    """
+    Perform example Sqlite queries.
+
+    Keyword arguments:
+    verbose -- give detailed status updates.
+
+    """
+    connection = sqlite3.connect(sqlite_filename)
+    cursor = connection.cursor()
+
+    print "forecasts Distinct Data_types"
+    cursor.execute('''SELECT DISTINCT Data_type
+        FROM forecasts''')
+    for row in cursor:
+        print row[0]
+    print
+
+    print "snapshots Distinct Data_types"
+    cursor.execute('''SELECT DISTINCT Data_type
+        FROM snapshots''')
+    for row in cursor:
+        print row[0]
+    print
+
+    print "forecasts count"
+    cursor.execute('''SELECT COUNT(*) FROM forecasts''')
+    print 'COUNT:', cursor.fetchone()[0]
+    print
+
+    print "snapshots count"
+    cursor.execute('''SELECT COUNT(*) FROM snapshots''')
+    print 'COUNT:', cursor.fetchone()[0]
+    print
 
     cursor.close()
     connection.close()
@@ -99,7 +212,7 @@ def main():
     """
     (options, args) = process_options()
     if len(args) == 0:
-        sqlite_filename = '../data/sqlite/coins_2009_10_sqlite.db'
+        sqlite_filename = '../data/sqlite/coins_2008_09_sqlite.db'
     else:
         sqlite_filename = args[0]
     options.verbose = True

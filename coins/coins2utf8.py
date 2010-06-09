@@ -14,10 +14,22 @@ import coinsfields
 
 def _normalize_time_field(time_val):
     """
-    Convert time field value to normalized form.
+    Convert month time field value to normalized form.
 
     """
     _map = {
+        'April 2008 MTH': u'2008.04',
+        'May 2008 MTH': u'2008.05',
+        'June 2008 MTH': u'2008.06',
+        'July 2008 MTH': u'2008.07',
+        'August 2008 MTH': u'2008.08',
+        'September 2008 MTH': u'2008.09',
+        'October 2008 MTH': u'2008.10',
+        'November 2008 MTH': u'2008.11',
+        'December 2008 MTH': u'2008.12',
+        'January 2009 MTH': u'2009.01',
+        'February 2009 MTH': u'2009.02',
+        'March 2009 MTH': u'2009.03',
         'April 2009 MTH': u'2009.04',
         'May 2009 MTH': u'2009.05',
         'June 2009 MTH': u'2009.06',
@@ -52,7 +64,9 @@ def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbo
     output_file = codecs.open(output_filename, 'w', 'utf_8', 'ignore')
 
     start_time = time.time()
-    reporting_interval = 1000
+    reporting_interval = 5000
+    if limit <= reporting_interval:
+        reporting_interval = 1000
 
     # read in the column headers
     line = input_file.next()
@@ -82,14 +96,14 @@ def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbo
                 continue
             if fields[coinsfields.VALUE] == '0':
                 zero_count += 1
-                continue
-            non_zero_count += 1
-            fields[coinsfields.TIME] = _normalize_time_field(fields[coinsfields.TIME])
-            out_line = ''
-            for i in output_fields[:-1]:
-                out_line += fields[i] + delimiter
-            out_line += fields[output_fields[-1]]
-            output_file.write("%s\n" % out_line)
+            else:
+                non_zero_count += 1
+                fields[coinsfields.TIME] = _normalize_time_field(fields[coinsfields.TIME])
+                out_line = ''
+                for i in output_fields[:-1]:
+                    out_line += fields[i] + delimiter
+                out_line += fields[output_fields[-1]]
+                output_file.write("%s\n" % out_line)
             if verbose and count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (count, elapsed_time))
@@ -102,6 +116,7 @@ def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbo
     print('Elapsed: %s' % elapsed_time)
     print('Number of rows: %s' % count)
     print('Number of rows with zero value: %s' % zero_count)
+    print('Number of rows with non-zero value: %s' % non_zero_count)
     print('Bad row count: %s' % bad_row_count)
     print
     return
@@ -135,13 +150,13 @@ def main():
     else:
         input_filename = args[0]
     verbose = True
-    output_filename = '../data/facts_2009_10_nz_fs_1000.csv'
-    convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 1000, verbose)
-    output_filename = '../data/facts_2009_10_nz_1000.csv'
-    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 1000, verbose)
+    output_filename = '../data/facts_2009_10_fs_s5000.csv'
+    convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 5000, verbose)
+    output_filename = '../data/facts_2009_10_s5000.csv'
+    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 5000, verbose)
 
-    output_filename = '../data/facts_2009_10_nz.csv'
-    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
+    #output_filename = '../data/facts_2009_10_nz.csv'
+    #convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
     input_filename = '../data/fact_table_extract_2008_09.txt'
     output_filename = '../data/facts_2008_09_nz.csv'
     convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
