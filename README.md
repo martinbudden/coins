@@ -116,4 +116,4 @@ Useful links
 Coding resources
 ----------------
 
-* [okfn coins python scripts](http://bitbucket.org/okfn/coins)
+* Open Knowledge Foundation(okfn) [coins python scripts](http://bitbucket.org/okfn/coins)
