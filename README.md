@@ -98,6 +98,8 @@ Checking Data
 
 [Public Expenditure Statistical Analyses 2009](http://www.hm-treasury.gov.uk/pespub_pesa09.htm) gives the outrun DEL, AME, Capital and Resource outrun figures for 2003-04 to 2007-08 and the estimated outrun for 2008-09 and the planned outruns for 2009-10 and 2010-2011. Forecast figures from the COINS 2009/10 Fact table can be checked against these tables.
 
+I've briefly outlined what some of the fields in the COINS data mean in the [data/README.md](http://github.com/martinbudden/coins/blob/master/data/README.md) file.
+
 
 Useful links
 ------------
