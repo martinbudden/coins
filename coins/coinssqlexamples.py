@@ -11,7 +11,7 @@ import locale
 from optparse import OptionParser
 
 
-def sqlite_examples(sqlite_filename, verbose):
+def sqlite_examples(sqlite_filename):
     """
     Perform example Sqlite queries.
 
@@ -151,7 +151,7 @@ def sqlite_examples(sqlite_filename, verbose):
     connection.close()
 
 
-def sqlite_examples2(sqlite_filename, verbose):
+def sqlite_examples2(sqlite_filename):
     """
     Perform example Sqlite queries.
 
@@ -215,8 +215,7 @@ def main():
         sqlite_filename = '../data/sqlite/coins_2008_09_sqlite.db'
     else:
         sqlite_filename = args[0]
-    options.verbose = True
-    sqlite_examples(sqlite_filename, options.verbose)
+    sqlite_examples(sqlite_filename)
 
 
 if __name__ == "__main__":

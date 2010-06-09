@@ -42,6 +42,7 @@ def write_description_table(connection, csv_reader, create, insert, verbose):
 
 
 def write_description_tables(connection, verbose):
+    # Note: data_subtype, data_subtype_description- not used
 
     csv_reader = csv.reader(open('../data/desc/data_type.csv', 'r'), 'excel')
     write_description_table(connection, csv_reader,
@@ -72,7 +73,6 @@ def write_description_tables(connection, verbose):
     write_description_table(connection, csv_reader,
         'create table programme_object_group (code TEXT PRIMARY KEY, description TEXT)',
         'insert into programme_object_group values (?,?)', verbose)
-    #cursor.execute('''create table data_subtype (data_subtype, data_subtype_description)''') - not used
 
 
 def write_coins_table(connection, csv_reader, limit, verbose):
@@ -118,7 +118,7 @@ def write_coins_table(connection, csv_reader, limit, verbose):
     print('Row count: %s' % row_count)
 
 
-def write_sqlite(sqlite_filename,input_filename, limit, verbose):
+def write_sqlite(sqlite_filename, input_filename, limit, verbose):
     """
     Read COINS .csv file
 

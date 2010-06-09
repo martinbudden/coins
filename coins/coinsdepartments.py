@@ -45,7 +45,7 @@ def write_selected_csv(input_filename, date, field_no, code, limit, verbose):
     selected_count = 0
     # read in the data
     try:
-        while 1:
+        while True:
             row = csv_reader.next()
             row_count += 1
             if verbose and row_count % reporting_interval == 0:
@@ -85,7 +85,7 @@ def write_all_depts_csv(input_filename, date, limit, verbose):
             row = depts_reader.next()
             dept = row[0]
             dept_code = dept.replace('/',' ')
-            output_filename = DEPT_FILENAME_TEMPLATE % {'date':date, 'code':dept_code}
+            output_filename = FILENAME_TEMPLATE % {'date':date, 'code':dept_code}
             csv_writer = csv.writer(open(output_filename, 'w'))
             dept_csv_writers[dept] = csv_writer
     except StopIteration:
@@ -160,9 +160,11 @@ def main():
         os.makedirs('../data/depts')
     if options.selection_code == None:
         #write_all_depts_csv(input_filename, date, limit, options.verbose)
-        write_selected_csv(input_filename, date, coinsfields.DATA_TYPE, 'outturn', limit, options.verbose)
+        write_selected_csv(input_filename, date, coinsfields.DATA_TYPE,
+            'outturn', limit, options.verbose)
     else:
-        write_selected_csv(input_filename, date, coinsfields.DEPARTMENT_CODE, options.selection_code, limit, options.verbose)
+        write_selected_csv(input_filename, date, coinsfields.DEPARTMENT_CODE,
+            options.selection_code, limit, options.verbose)
 
 
 if __name__ == "__main__":

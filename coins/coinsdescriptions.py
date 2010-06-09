@@ -71,19 +71,23 @@ def read_coins_csv(filename):
 
     print "data subtype"
     write_data_csv('../data/desc/data_subtype.csv', data_subtype,
-        column_headings[coinsfields.DATA_SUBTYPE], column_headings[coinsfields.DATA_SUBTYPE_DESCRIPTION])
+        column_headings[coinsfields.DATA_SUBTYPE],
+        column_headings[coinsfields.DATA_SUBTYPE_DESCRIPTION])
 
     print "counterparty"
     write_data_csv('../data/desc/counterparty.csv', counterparty,
-        column_headings[coinsfields.COUNTERPARTY_CODE], column_headings[coinsfields.COUTERPARTY_DESCRIPTION])
+        column_headings[coinsfields.COUNTERPARTY_CODE],
+        column_headings[coinsfields.COUTERPARTY_DESCRIPTION])
 
     print "program_object"
     write_data_csv('../data/desc/programme_object.csv', programme_object,
-        column_headings[coinsfields.PROGRAMME_OBJECT_CODE], column_headings[coinsfields.PROGRAMME_OBJECT_DESCRIPTION])
+        column_headings[coinsfields.PROGRAMME_OBJECT_CODE],
+        column_headings[coinsfields.PROGRAMME_OBJECT_DESCRIPTION])
 
     print "programme_object_group"
     write_data_csv('../data/desc/programme_object_group.csv', programme_object_group,
-        column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_CODE], column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_DESCRIPTION])
+        column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_CODE],
+        column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_DESCRIPTION])
 
 
 def write_data_csv(filename, data, field_name, field_description):
@@ -123,7 +127,7 @@ def main():
     """
     (options, args) = process_options()
     if len(args) == 0:
-        input_filename = '../data/facts_2009_10_nz.csv'
+        input_filename = '../data/facts_2009_10 .csv'
     else:
         input_filename = args[0]
     # read in the COINS data

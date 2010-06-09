@@ -149,17 +149,17 @@ def main():
         input_filename = '../data/fact_table_extract_2009_10.txt'
     else:
         input_filename = args[0]
-    verbose = True
+    options.verbose = True
     output_filename = '../data/facts_2009_10_fs_s5000.csv'
-    convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 5000, verbose)
+    convert_to_utf8(output_filename, input_filename, coinsfields.FIELD_SUBSET_0, 5000, options.verbose)
     output_filename = '../data/facts_2009_10_s5000.csv'
-    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 5000, verbose)
+    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 5000, options.verbose)
 
     #output_filename = '../data/facts_2009_10_nz.csv'
-    #convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
+    #convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, options.verbose)
     input_filename = '../data/fact_table_extract_2008_09.txt'
     output_filename = '../data/facts_2008_09_nz.csv'
-    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, verbose)
+    convert_to_utf8(output_filename, input_filename, range(coinsfields.FIELD_COUNT), 0, options.verbose)
 
 
 if __name__ == "__main__":
