@@ -76,13 +76,32 @@ def sqlite_examples(sqlite_filename):
 
     print "outturn count"
     cursor.execute('''SELECT COUNT(*) FROM outturn''')
-    print 'COUNT:', cursor.fetchone()[0]
+    count = cursor.fetchone()[0]
+    total = count
+    print 'COUNT:', count
     print
 
     print "plans count"
     cursor.execute('''SELECT COUNT(*) FROM plans''')
-    print 'COUNT:', cursor.fetchone()[0]
+    count = cursor.fetchone()[0]
+    total += count
+    print 'COUNT:', count
     print
+
+    print "forecasts count"
+    cursor.execute('''SELECT COUNT(*) FROM forecasts''')
+    count = cursor.fetchone()[0]
+    total += count
+    print 'COUNT:', count
+    print
+
+    print "snapshots count"
+    cursor.execute('''SELECT COUNT(*) FROM snapshots''')
+    count = cursor.fetchone()[0]
+    total += count
+    print 'COUNT:', count
+    print
+    print 'TOTAL COUNT:', total
 
     print "CHC009 DEL outturn"
     dept = 'CHC009'

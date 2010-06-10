@@ -23,26 +23,22 @@ Overview of COINS data
 
 The structure of the COINS data is explained in  [HM Treasury - Understanding the COINS data](http://www.hm-treasury.gov.uk/d/coins_guidance_040610.pdf).
 
-The documents on the [Public Expenditure Statistical Analyses 2010](http://www.hm-treasury.gov.uk/pespub_pesa10_natstats.htm) page are useful. The meaning of the terms used (DEL, AME, outrun etc) is explained in the [PESA 2010 National Statistics release](http://www.hm-treasury.gov.uk/pespub_pesa10_natstats.htm), in the 'How to use PESA' section and Chapter 1 'Departmental Budgets'.
+The documents on the [Public Expenditure Statistical Analyses 2010](http://www.hm-treasury.gov.uk/pespub_pesa10_natstats.htm) page are useful. The meaning of the terms used (DEL, AME, outrun etc) is explained in the [PESA 2010 National Statistics release](http://www.hm-treasury.gov.uk/pespub_pesa10_natstats.htm), in the 'How to use PESA' section and in Chapter 1 'Departmental Budgets'.
 
-The documents on the [Public Expenditure Statistical Analyses 2009](http://www.hm-treasury.gov.uk/pespub_pesa09.htm) page are also useful, in particular the Introduction and Chapter 1 of [Public Expenditure
-Statistical Analyses 2009](http://www.hm-treasury.gov.uk/d/pesa_180609.pdf)
+The documents on the [Public Expenditure Statistical Analyses 2009](http://www.hm-treasury.gov.uk/pespub_pesa09.htm) page are also useful, in particular the Introduction and Chapter 1 of [Public Expenditure Statistical Analyses 2009](http://www.hm-treasury.gov.uk/d/pesa_180609.pdf)
 
 
 ###Very brief summary
 
-A clear distinction is made between current and capital spending, based on Generally Accepted Accounting Practice ([GAAP](http://en.wikipedia.org/wiki/GAAP)). The "Resource_Capital" field has a value of "Resource" or "Capital" to reflect this.
+The Treasury maintains data for recorded spending (outturn), forecast spending (estimated outturn for the latest year) and planned spending (up to three years ahead). The COINS data also includes snapshots of the spending data. The "Data_type" field has values that reflect this, including "Outturn", "Forecast Outturn <month>" (eg "Forecast Outturn March"), "Plans" and "Snapshot<n>".
 
-Departments are given firm three year spending limits called Departmental Expenditure Limits (DELs) within which they prioritise resources and plan ahead. Spending that cannot reasonably be subject to firm multi-year limits, or that relates to certain non-cash transactions, is included in Annually Managed Expenditure (AME). DEL and AME together make up TME (Total Managed Expenditure). The "Budget_Boundary" field has a value of "DEL", "AME" or "Not DEL/AME" to reflect this.
+To give an indication of the proportion of each of the data types, the COINS *fact_table_extract_2008_09.txt* file contains 2,043,129 records that have a non-zero *value* field: of these 20,566 are outturn records, 1,610,900 are forecast records, 13,733 are plans records, and 397,930 are snapshot records.
 
-The Treasury maintains data for recorded spending, planned spending and forecast spending. The "Data_type" field has values that reflect this, including "Outturn", "Plans" "Forecast Outturn <month>" (eg "Forecast Outturn March").
+A clear distinction is made between current and capital spending, based on Generally Accepted Accounting Practice ([GAAP](http://en.wikipedia.org/wiki/GAAP)). The *Resource_Capital* field has a value of "Resource" or "Capital" to reflect this.
 
-Spending is by department. The "Department_code" field reflects this.
+Departments are given firm three year spending limits called Departmental Expenditure Limits (**DEL**s) within which they prioritise resources and plan ahead. Spending that cannot reasonably be subject to firm multi-year limits, or that relates to certain non-cash transactions, is included in Annually Managed Expenditure (**AME**). DEL and AME together make up Total Managed Expenditure (**TME**). The *Budget_Boundary* field has a value of "DEL", "AME" or "Not DEL/AME" to reflect this.
 
-outturn count 20566
-plans count 13733
-forecasts count 1610900
-snapshots count 397930
+Spending is by department. The *Department_code* field reflects this.
 
 
 Checking COINS data against PESA reports
