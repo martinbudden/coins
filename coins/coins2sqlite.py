@@ -131,7 +131,7 @@ def write_coins_table(connection, csv_reader, limit, verbose):
                 row[80])
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
-                print('%s: %s' % (row_count, elapsed_time))
+                print('%s: %s' % (row_count, round(elapsed_time, 2)))
                 print 'row:', t
                 print
             row_count += 1

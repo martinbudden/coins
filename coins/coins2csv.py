@@ -48,10 +48,10 @@ def write_selected_csv(input_filename, date, field_no, code, limit, verbose):
     try:
         while True:
             row = csv_reader.next()
-            row_count += 1
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
-                print('%s: %s' % (row_count, elapsed_time))
+                print('%s: %s' % (row_count, round(elapsed_time, 2)))
+            row_count += 1
             if row[field_no] == code:
                 selected_count += 1
                 csv_writer.writerow(row)
@@ -105,10 +105,10 @@ def write_all_depts_csv(input_filename, date, limit, verbose):
     try:
         while True:
             row = csv_reader.next()
-            row_count += 1
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
-                print('%s: %s' % (row_count, elapsed_time))
+                print('%s: %s' % (row_count, round(elapsed_time, 2)))
+            row_count += 1
             dept = row[coinsfields.DEPARTMENT_CODE]
             dept_csv_writers[dept].writerow(row)
             counts[dept] += 1

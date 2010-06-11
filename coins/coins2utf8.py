@@ -64,8 +64,8 @@ def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbo
     output_file = codecs.open(output_filename, 'w', 'utf_8', 'ignore')
 
     start_time = time.time()
-    reporting_interval = 5000
-    if limit <= reporting_interval:
+    reporting_interval = 10000
+    if limit!=0 and limit <= reporting_interval:
         reporting_interval = 1000
 
     # read in the column headers
@@ -106,14 +106,14 @@ def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbo
                 output_file.write("%s\n" % out_line)
             if verbose and count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
-                print('%s: %s' % (count, elapsed_time))
+                print('%s: %s' % (count, round(elapsed_time, 2)))
             if limit > 0 and non_zero_count >= limit:
                 break
     except StopIteration:
         pass
 
     elapsed_time = time.time() - start_time
-    print('Elapsed: %s' % elapsed_time)
+    print('Elapsed: %s' % round(elapsed_time))
     print('Number of rows: %s' % count)
     print('Number of rows with zero value: %s' % zero_count)
     print('Number of rows with non-zero value: %s' % non_zero_count)

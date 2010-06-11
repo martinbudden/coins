@@ -53,7 +53,7 @@ def read_coins_csv(filename, date, verbose):
             row_count += 1
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
-                print('%s: %s' % (row_count, elapsed_time))
+                print('%s: %s' % (row_count, round(elapsed_time, 2)))
             row = reader.next()
             data_type[row[coinsfields.DATA_TYPE]] = row[coinsfields.DATA_TYPE_DESCRIPTION]
             department[row[coinsfields.DEPARTMENT_CODE]] = row[coinsfields.DEPARTMENT_DESCRIPTION]
