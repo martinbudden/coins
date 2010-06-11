@@ -124,6 +124,7 @@ def write_coins_table(connection, csv_reader, limit, verbose):
     try:
         while True:
             row = csv_reader.next()
+            row_count += 1
             t = (row[0], row[2], row[4], row[6], row[8], row[9],
                 row[11], row[13], row[15], row[16], row[17], row[18], row[19],
                 row[20], row[21], row[22], row[23], row[24], row[25], row[28],
@@ -132,9 +133,8 @@ def write_coins_table(connection, csv_reader, limit, verbose):
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (row_count, round(elapsed_time, 2)))
-                print 'row:', t
-                print
-            row_count += 1
+                #print 'row:', t
+                #print
             if row[0] == 'Outturn':
                 cursor.execute('insert into outturn values (%s)' % ('?,' * len(t))[:-1], t)
             elif row[0] == 'Plans':
@@ -166,8 +166,10 @@ def write_sqlite(sqlite_filename, input_filename, date, limit, verbose):
     verbose -- give detailed status updates.
 
     """
+    if verbose:
+        print 'Reading:', input_filename
     connection = sqlite3.connect(sqlite_filename)
-    write_description_tables(connection, date, verbose)
+    write_description_tables(connection, date, False)
     cursor = connection.cursor()
 
     # Create coins table
