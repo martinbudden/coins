@@ -263,6 +263,12 @@ def main():
     if os.path.isfile(sqlite_filename):
         os.remove(sqlite_filename)
     write_sqlite(sqlite_filename, input_filename, date, limit, options.verbose)
+    date = '2009_10'
+    input_filename = '../data/facts_%s_nz.csv' % date
+    sqlite_filename = '../data/sqlite/coins_%s_sqlite.db' % date
+    if os.path.isfile(sqlite_filename):
+        os.remove(sqlite_filename)
+    write_sqlite(sqlite_filename, input_filename, date, limit, options.verbose)
 
 
 if __name__ == "__main__":
