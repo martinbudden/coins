@@ -31,6 +31,8 @@ def write_selected_csv(input_filename, date, field_no, code, limit, verbose):
     verbose -- give detailed status updates.
 
     """
+    if verbose:
+        print 'Reading:', input_filename
     csv_reader = csv.reader(open(input_filename, "rb"), 'excel', delimiter='@')
     output_filename = FILENAME_TEMPLATE % {'date':date, 'code':code}
     csv_writer = csv.writer(open(output_filename, 'w'))
@@ -48,10 +50,10 @@ def write_selected_csv(input_filename, date, field_no, code, limit, verbose):
     try:
         while True:
             row = csv_reader.next()
+            row_count += 1
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (row_count, round(elapsed_time, 2)))
-            row_count += 1
             if row[field_no] == code:
                 selected_count += 1
                 csv_writer.writerow(row)
@@ -75,6 +77,8 @@ def write_all_depts_csv(input_filename, date, limit, verbose):
     verbose -- give detailed status updates.
 
     """
+    if verbose:
+        print 'Reading:', input_filename
     dept_csv_writers = {}
     depts_reader = csv.reader(open('../data/desc/department.csv', 'r'))
     # skip the column headings
@@ -105,10 +109,10 @@ def write_all_depts_csv(input_filename, date, limit, verbose):
     try:
         while True:
             row = csv_reader.next()
+            row_count += 1
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
                 print('%s: %s' % (row_count, round(elapsed_time, 2)))
-            row_count += 1
             dept = row[coinsfields.DEPARTMENT_CODE]
             dept_csv_writers[dept].writerow(row)
             counts[dept] += 1
@@ -133,6 +137,8 @@ def write_all_data_types_csv(input_filename, date, limit, verbose):
     verbose -- give detailed status updates.
 
     """
+    if verbose:
+        print 'Reading:', input_filename
     csv_writers = {}
     data_types = ['outturn', 'forecasts', 'plans', 'snapshots']
     # skip the column headings
@@ -155,10 +161,10 @@ def write_all_data_types_csv(input_filename, date, limit, verbose):
     try:
         while True:
             row = csv_reader.next()
+            row_count += 1
             if verbose and row_count % reporting_interval == 0:
                 elapsed_time = time.time() - start_time
-                print('%s: %s' % (row_count, elapsed_time))
-            row_count += 1
+                print('%s: %s' % (row_count, round(elapsed_time, 2)))
             data_type = row[coinsfields.DATA_TYPE]
             if data_type == 'Outturn':
                 csv_writers['outturn'].writerow(row)
@@ -219,6 +225,9 @@ def main():
         os.makedirs('../data/csv')
     if options.selection_code == None:
         #write_all_depts_csv(input_filename, date, limit, options.verbose)
+        write_all_data_types_csv(input_filename, date, limit, options.verbose)
+        date = '2009_10'
+        input_filename = '../data/facts_%s_nz.csv' % date
         write_all_data_types_csv(input_filename, date, limit, options.verbose)
         #write_selected_csv(input_filename, date, coinsfields.DATA_TYPE, 'outturn', limit, options.verbose)
     else:
