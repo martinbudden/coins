@@ -65,7 +65,7 @@ def convert_to_utf8(output_filename, input_filename, output_fields, limit, verbo
 
     start_time = time.time()
     reporting_interval = 10000
-    if limit!=0 and limit <= reporting_interval:
+    if limit != 0 and limit <= reporting_interval:
         reporting_interval = 1000
 
     # read in the column headers
