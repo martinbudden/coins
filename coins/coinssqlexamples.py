@@ -13,10 +13,10 @@ from optparse import OptionParser
 
 def sqlite_examples(sqlite_filename):
     """
-    Perform example Sqlite queries.
+    Perform example SQLite queries.
 
     Keyword arguments:
-    verbose -- give detailed status updates.
+    sqlite_filename -- name of SQLite database file to be queried.
 
     """
     connection = sqlite3.connect(sqlite_filename)
@@ -61,47 +61,6 @@ def sqlite_examples(sqlite_filename):
     cursor.execute('''SELECT * FROM outturn''')
     print cursor.fetchone()
     print
-
-    print "outturn Distinct Data_types"
-    cursor.execute('''SELECT DISTINCT Data_type FROM outturn''')
-    for row in cursor:
-        print row[0]
-    print
-
-    print "outturn Distinct Data_subtypes"
-    cursor.execute('''SELECT DISTINCT Data_subtype FROM outturn''')
-    for row in cursor:
-        print row[0]
-    print
-
-    print "outturn count"
-    cursor.execute('''SELECT COUNT(*) FROM outturn''')
-    count = cursor.fetchone()[0]
-    total = count
-    print 'COUNT:', count
-    print
-
-    print "plans count"
-    cursor.execute('''SELECT COUNT(*) FROM plans''')
-    count = cursor.fetchone()[0]
-    total += count
-    print 'COUNT:', count
-    print
-
-    print "forecasts count"
-    cursor.execute('''SELECT COUNT(*) FROM forecasts''')
-    count = cursor.fetchone()[0]
-    total += count
-    print 'COUNT:', count
-    print
-
-    print "snapshots count"
-    cursor.execute('''SELECT COUNT(*) FROM snapshots''')
-    count = cursor.fetchone()[0]
-    total += count
-    print 'COUNT:', count
-    print
-    print 'TOTAL COUNT:', total
 
     print "CHC009 DEL outturn"
     dept = 'CHC009'
@@ -172,14 +131,26 @@ def sqlite_examples(sqlite_filename):
 
 def sqlite_examples2(sqlite_filename):
     """
-    Perform example Sqlite queries.
+    Perform example SQLite queries.
 
     Keyword arguments:
-    verbose -- give detailed status updates.
+    sqlite_filename -- name of SQLite database file to be queried.
 
     """
     connection = sqlite3.connect(sqlite_filename)
     cursor = connection.cursor()
+
+    print "outturn Distinct Data_types"
+    cursor.execute('''SELECT DISTINCT Data_type FROM outturn''')
+    for row in cursor:
+        print row[0]
+    print
+
+    print "outturn Distinct Data_subtypes"
+    cursor.execute('''SELECT DISTINCT Data_subtype FROM outturn''')
+    for row in cursor:
+        print row[0]
+    print
 
     print "forecasts Distinct Data_types"
     cursor.execute('''SELECT DISTINCT Data_type
@@ -195,15 +166,34 @@ def sqlite_examples2(sqlite_filename):
         print row[0]
     print
 
+    print "outturn count"
+    cursor.execute('''SELECT COUNT(*) FROM outturn''')
+    count = cursor.fetchone()[0]
+    total = count
+    print 'COUNT:', count
+    print
+
+    print "plans count"
+    cursor.execute('''SELECT COUNT(*) FROM plans''')
+    count = cursor.fetchone()[0]
+    total += count
+    print 'COUNT:', count
+    print
+
     print "forecasts count"
     cursor.execute('''SELECT COUNT(*) FROM forecasts''')
-    print 'COUNT:', cursor.fetchone()[0]
+    count = cursor.fetchone()[0]
+    total += count
+    print 'COUNT:', count
     print
 
     print "snapshots count"
     cursor.execute('''SELECT COUNT(*) FROM snapshots''')
-    print 'COUNT:', cursor.fetchone()[0]
+    count = cursor.fetchone()[0]
+    total += count
+    print 'COUNT:', count
     print
+    print 'TOTAL COUNT:', total
 
     cursor.close()
     connection.close()
@@ -226,7 +216,7 @@ def process_options(arglist=None):
 
 def main():
     """
-    Perform example queries on the COINS Sqlite database.
+    Perform example queries on the COINS SQLite database.
 
     """
     (options, args) = process_options()
@@ -235,6 +225,7 @@ def main():
     else:
         sqlite_filename = args[0]
     sqlite_examples(sqlite_filename)
+    sqlite_examples2(sqlite_filename)
 
 
 if __name__ == "__main__":

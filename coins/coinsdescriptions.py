@@ -9,11 +9,12 @@ eg department_code and department_description are placed in data/desc/department
 
 import os
 import csv
+import time
 from optparse import OptionParser
 
 import coinsfields
 
-def read_coins_csv(filename):
+def read_coins_csv(filename, date, verbose):
     """
     Read COINS .csv file
 
@@ -34,6 +35,8 @@ def read_coins_csv(filename):
     counterparty = {}
     programme_object = {}
     programme_object_group = {}
+    if verbose:
+        print 'Reading:', filename
     reader = csv.reader(open(filename, "rb"), 'excel', delimiter='@')
 
     # read in the first row, which contains the column headings
@@ -42,8 +45,15 @@ def read_coins_csv(filename):
     # Account_code, Account_description...
     column_headings = reader.next()
 
+    start_time = time.time()
+    reporting_interval = 50000
+    row_count = 0
     try:
         while True:
+            row_count += 1
+            if verbose and row_count % reporting_interval == 0:
+                elapsed_time = time.time() - start_time
+                print('%s: %s' % (row_count, elapsed_time))
             row = reader.next()
             data_type[row[coinsfields.DATA_TYPE]] = row[coinsfields.DATA_TYPE_DESCRIPTION]
             department[row[coinsfields.DEPARTMENT_CODE]] = row[coinsfields.DEPARTMENT_DESCRIPTION]
@@ -55,39 +65,38 @@ def read_coins_csv(filename):
     except StopIteration:
         pass
 
-    if not os.path.isdir('../data/desc'):
-        os.makedirs('../data/desc')
     print "data type"
-    write_data_csv('../data/desc/data_type.csv', data_type,
+    write_data_csv('../data/desc/data_type_%s.csv' % date, data_type,
         column_headings[coinsfields.DATA_TYPE], column_headings[coinsfields.DATA_TYPE_DESCRIPTION])
 
     print "department"
-    write_data_csv('../data/desc/department.csv', department,
+    write_data_csv('../data/desc/department_%s.csv' % date, department,
         column_headings[coinsfields.DEPARTMENT_CODE], column_headings[coinsfields.DEPARTMENT_DESCRIPTION])
 
     print "account"
-    write_data_csv('../data/desc/account.csv', account,
+    write_data_csv('../data/desc/account_%s.csv' % date, account,
         column_headings[coinsfields.ACCOUNT_CODE], column_headings[coinsfields.ACCOUNT_DESCRIPTION])
 
     print "data subtype"
-    write_data_csv('../data/desc/data_subtype.csv', data_subtype,
+    write_data_csv('../data/desc/data_subtype_%s.csv' % date, data_subtype,
         column_headings[coinsfields.DATA_SUBTYPE],
         column_headings[coinsfields.DATA_SUBTYPE_DESCRIPTION])
 
     print "counterparty"
-    write_data_csv('../data/desc/counterparty.csv', counterparty,
+    write_data_csv('../data/desc/counterparty_%s.csv' % date, counterparty,
         column_headings[coinsfields.COUNTERPARTY_CODE],
         column_headings[coinsfields.COUTERPARTY_DESCRIPTION])
 
     print "program_object"
-    write_data_csv('../data/desc/programme_object.csv', programme_object,
+    write_data_csv('../data/desc/programme_object_%s.csv' % date, programme_object,
         column_headings[coinsfields.PROGRAMME_OBJECT_CODE],
         column_headings[coinsfields.PROGRAMME_OBJECT_DESCRIPTION])
 
     print "programme_object_group"
-    write_data_csv('../data/desc/programme_object_group.csv', programme_object_group,
+    write_data_csv('../data/desc/programme_object_group_%s.csv' % date, programme_object_group,
         column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_CODE],
         column_headings[coinsfields.PROGRAMME_OBJECT_GROUP_DESCRIPTION])
+    print
 
 
 def write_data_csv(filename, data, field_name, field_description):
@@ -127,11 +136,16 @@ def main():
     """
     (options, args) = process_options()
     if len(args) == 0:
-        input_filename = '../data/facts_2009_10 .csv'
+        input_filename = '../data/facts_2008_09_nz.csv'
     else:
         input_filename = args[0]
-    # read in the COINS data
-    read_coins_csv(input_filename)
+
+    if not os.path.isdir('../data/desc'):
+        os.makedirs('../data/desc')
+    options.verbose = True
+    read_coins_csv(input_filename, '2008_09', options.verbose)
+    input_filename = '../data/facts_2009_10_nz.csv'
+    read_coins_csv(input_filename, '2009_10', options.verbose)
 
 
 if __name__ == "__main__":

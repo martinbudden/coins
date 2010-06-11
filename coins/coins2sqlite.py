@@ -3,7 +3,7 @@
 #file: coins2sqlite.py
 
 """
-Read a COINS csv file and put it into an Sqlite database.
+Read a COINS csv file and put it into an SQLite database.
 """
 
 import os
@@ -17,6 +17,18 @@ import coinsfields
 
 
 def write_description_table(connection, csv_reader, create, insert, verbose):
+    """
+    Read a COINS .csv data description files and write it out
+    to a data description tables in the database.
+
+    Keyword arguments:
+    connection -- an SQLite connection to the database to be written.
+    csv_reader -- a csv_reader over the description file.
+    create -- SQL table creation string.
+    insert -- SQL table insertion string.
+    verbose -- give detailed status updates.
+
+    """
     if verbose:
         print
         print create
@@ -41,41 +53,65 @@ def write_description_table(connection, csv_reader, create, insert, verbose):
 
 
 
-def write_description_tables(connection, verbose):
+def write_description_tables(connection, date, verbose):
+    """
+    Read COINS .csv data description files and write them out
+    to the data description tables in the database. This is, in effect,
+    a partial normalization of the database.
+
+    Keyword arguments:
+    connection -- an SQLite connection to the database to be written.
+    date -- the date period for the data, reflected in the output filename.
+    verbose -- give detailed status updates.
+
+    """
     # Note: data_subtype, data_subtype_description- not used
 
-    csv_reader = csv.reader(open('../data/desc/data_type.csv', 'r'), 'excel')
+    csv_reader = csv.reader(open('../data/desc/data_type_%s.csv' % date, 'r'), 'excel')
     write_description_table(connection, csv_reader,
         'create table data_type (type TEXT PRIMARY KEY, description TEXT)',
         'insert into data_type values (?,?)', verbose)
 
-    csv_reader = csv.reader(open('../data/desc/account.csv', 'r'), 'excel')
+    csv_reader = csv.reader(open('../data/desc/account_%s.csv' % date, 'r'), 'excel')
     write_description_table(connection, csv_reader,
         'create table account (code TEXT PRIMARY KEY, description TEXT)',
         'insert into account values (?,?)', verbose)
 
-    csv_reader = csv.reader(open('../data/desc/department.csv', 'r'), 'excel')
+    csv_reader = csv.reader(open('../data/desc/department_%s.csv' % date, 'r'), 'excel')
     write_description_table(connection, csv_reader,
         'create table department (code TEXT PRIMARY KEY, description TEXT)',
         'insert into department values (?,?)', verbose)
 
-    csv_reader = csv.reader(open('../data/desc/counterparty.csv', 'r'), 'excel')
+    csv_reader = csv.reader(open('../data/desc/counterparty_%s.csv' % date, 'r'), 'excel')
     write_description_table(connection, csv_reader,
         'create table counterparty (code TEXT PRIMARY KEY, description TEXT)',
         'insert into counterparty values (?,?)', verbose)
 
-    csv_reader = csv.reader(open('../data/desc/programme_object.csv', 'r'), 'excel')
+    csv_reader = csv.reader(open('../data/desc/programme_object_%s.csv' % date, 'r'), 'excel')
     write_description_table(connection, csv_reader,
         'create table programme_object (code TEXT PRIMARY KEY, description TEXT)',
         'insert into programme_object values (?,?)', verbose)
 
-    csv_reader = csv.reader(open('../data/desc/programme_object_group.csv', 'r'), 'excel')
+    csv_reader = csv.reader(open('../data/desc/programme_object_group_%s.csv' % date, 'r'), 'excel')
     write_description_table(connection, csv_reader,
         'create table programme_object_group (code TEXT PRIMARY KEY, description TEXT)',
         'insert into programme_object_group values (?,?)', verbose)
 
 
 def write_coins_table(connection, csv_reader, limit, verbose):
+    """
+    Read COINS .csv file, write it out into an SQLite database.
+    COINS data is split into separate tables according to data_type,
+    this makes querying the database much quicker.
+
+    Keyword arguments:
+    connection -- an SQLite connection to the database to be written.
+    csv_reader -- a csv_reader over the COINS file.
+    date -- the date period for the data, reflected in the output filename.
+    limit -- max number of lines of input to be read. Useful for debugging.
+    verbose -- give detailed status updates.
+
+    """
     cursor = connection.cursor()
     # read in the first row, which contains the column headings
     # eg Data_type, Data_type_description,
@@ -100,13 +136,14 @@ def write_coins_table(connection, csv_reader, limit, verbose):
                 print
             row_count += 1
             if row[0] == 'Outturn':
-                cursor.execute('insert into outturn values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', t)
+                cursor.execute('insert into outturn values (%s)' % ('?,' * len(t))[:-1], t)
             elif row[0] == 'Plans':
-                cursor.execute('insert into plans values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', t)
+                cursor.execute('insert into plans values (%s)' % ('?,' * len(t))[:-1], t)
+                #cursor.execute('insert into plans values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', t)
             elif row[0][:8] == 'Forecast':
-                cursor.execute('insert into forecasts values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', t)
+                cursor.execute('insert into forecasts values (%s)' % ('?,' * len(t))[:-1], t)
             elif row[0][:8] == 'Snapshot':
-                cursor.execute('insert into snapshots values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', t)
+                cursor.execute('insert into snapshots values (%s)' % ('?,' * len(t))[:-1], t)
             else:
                 print 'Error: unknown Data_type', row[0]
             if limit > 0 and row_count > limit:
@@ -118,20 +155,19 @@ def write_coins_table(connection, csv_reader, limit, verbose):
     print('Row count: %s' % row_count)
 
 
-def write_sqlite(sqlite_filename, input_filename, limit, verbose):
+def write_sqlite(sqlite_filename, input_filename, date, limit, verbose):
     """
-    Read COINS .csv file
+    Read COINS .csv file, write it out into an SQLite database
 
     Keyword arguments:
-    input_filename -- the name of the COINS input file
-    date -- the date period for the data, reflected in the output filename
+    input_filename -- the name of the COINS input file.
+    date -- the date period for the data, reflected in the output filename.
     limit -- max number of lines of input to be read. Useful for debugging.
     verbose -- give detailed status updates.
 
     """
-
     connection = sqlite3.connect(sqlite_filename)
-    write_description_tables(connection, verbose)
+    write_description_tables(connection, date, verbose)
     cursor = connection.cursor()
 
     # Create coins table
@@ -204,7 +240,7 @@ def process_options(arglist=None):
 
 def main():
     """
-    Read in the COINS csv file, write out the records for a single department
+    Read in the COINS csv file, write out the records in a SQLite database.
 
     """
     (options, args) = process_options()
@@ -219,10 +255,12 @@ def main():
 
     if not os.path.isdir('../data/sqlite'):
         os.makedirs('../data/sqlite')
-    sqlite_filename = '../data/sqlite/coins_2008_09_sqlite.db'
+    date = '2008_09'
+    input_filename = '../data/facts_%s_nz.csv' % date
+    sqlite_filename = '../data/sqlite/coins_%s_sqlite.db' % date
     if os.path.isfile(sqlite_filename):
         os.remove(sqlite_filename)
-    write_sqlite(sqlite_filename, input_filename, limit, options.verbose)
+    write_sqlite(sqlite_filename, input_filename, date, limit, options.verbose)
 
 
 if __name__ == "__main__":
