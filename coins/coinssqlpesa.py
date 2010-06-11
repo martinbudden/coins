@@ -289,12 +289,10 @@ def main():
         sqlite_filename = '../data/sqlite/coins_2008_09_sqlite.db'
     else:
         sqlite_filename = args[0]
-    print '<html>'    
     sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Resource', 'DEL', options.verbose)
-    #sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Resource', 'AME', options.verbose)
-    #sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Capital', 'DEL', options.verbose)
-    #sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Capital', 'AME', options.verbose)
-    print '</html>'
+    sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Resource', 'AME', options.verbose)
+    sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Capital', 'DEL', options.verbose)
+    sqlite_departmental_group_totals(sqlite_filename, DEPARTMENTAL_GROUPS_2008_09, 'Capital', 'AME', options.verbose)
 
 
 if __name__ == "__main__":
